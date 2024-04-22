@@ -1,4 +1,4 @@
- Write create table syntax for employee table
+ Write create table syntax for employee table 
 Get all employee details from the employee table
 Get First_Name, Last_Name from employee table
  Get First_Name from employee table using alias name “Employee Name”
