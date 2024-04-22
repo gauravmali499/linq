@@ -1,0 +1,207 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+public class Employee
+{
+    public int EmployeeID { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Department { get; set; }
+    public decimal Salary { get; set; }
+    public DateTime JoiningDate { get; set; }
+    public DateTime? IncentiveDate { get; set; }
+}
+
+public class Program
+{
+    public static List<Employee> Employees = new List<Employee>
+    {
+        new Employee { EmployeeID = 1, FirstName = "John", LastName = "Doe", Department = "IT", Salary = 60000, JoiningDate = new DateTime(2010, 1, 15), IncentiveDate = new DateTime(2010, 2, 10) },
+        new Employee { EmployeeID = 2, FirstName = "Jane", LastName = "Smith", Department = "HR", Salary = 55000, JoiningDate = new DateTime(2011, 5, 20), IncentiveDate = new DateTime(2011, 6, 15) },
+        new Employee { EmployeeID = 3, FirstName = "Michael", LastName = "Johnson", Department = "Finance", Salary = 70000, JoiningDate = new DateTime(2013, 2, 28), IncentiveDate = new DateTime(2013, 3, 20) },
+        new Employee { EmployeeID = 4, FirstName = "Robert", LastName = "Williams", Department = "IT", Salary = 65000, JoiningDate = new DateTime(2014, 7, 10), IncentiveDate = new DateTime(2014, 8, 5) }
+        // Add more employees here
+    };
+
+    public static void Main(string[] args)
+    {
+        // Get all employee details from the employee table
+        var allEmployees = Employees;
+
+        // Get First_Name, Last_Name from employee table
+        var firstLastNames = Employees.Select(e => new { e.FirstName, e.LastName });
+
+        // Get First_Name from employee table using alias name “Employee Name”
+        var employeeNames = Employees.Select(e => new { Employee_Name = e.FirstName });
+
+        // Get First_Name from employee table in upper case
+        var upperCaseFirstNames = Employees.Select(e => new { UpperCaseFirstName = e.FirstName.ToUpper() });
+
+        // Get First_Name from employee table in lower case
+        var lowerCaseFirstNames = Employees.Select(e => new { LowerCaseFirstName = e.FirstName.ToLower() });
+
+        // Get unique DEPARTMENT from employee table
+        var uniqueDepartments = Employees.Select(e => e.Department).Distinct();
+
+        // Select first 3 characters of FIRST_NAME from EMPLOYEE.
+        var first3CharsOfFirstName = Employees.Select(e => e.FirstName.Substring(0, 3));
+
+        // Get position of 'o' in name 'John' from employee table
+        var positionOfOInJohn = Employees.Where(e => e.FirstName == "John").Select(e => e.FirstName.IndexOf('o'));
+
+        // Get FIRST_NAME from employee table after removing white spaces from right side
+        var firstNameWithoutRightSpaces = Employees.Select(e => new { FirstName = e.FirstName.TrimEnd() });
+
+        // Get FIRST_NAME from employee table after removing white spaces from left side
+        var firstNameWithoutLeftSpaces = Employees.Select(e => new { FirstName = e.FirstName.TrimStart() });
+
+        // Get length of FIRST_NAME from employee table
+        var firstNameLength = Employees.Select(e => new { FirstNameLength = e.FirstName.Length });
+
+        // Get First_Name from employee table after replacing 'o' with '$'
+        var replacedOsWithDollars = Employees.Select(e => new { FirstName = e.FirstName.Replace('o', '$') });
+
+        // Get First_Name and Last_Name as single column from employee table separated by a '_'
+        var fullName = Employees.Select(e => new { FullName = $"{e.FirstName}_{e.LastName}" });
+
+        // Get FIRST_NAME, Joining year, Joining Month, and Joining Date from employee table
+        var joiningDetails = Employees.Select(e => new { e.FirstName, JoiningYear = e.JoiningDate.Year, JoiningMonth = e.JoiningDate.Month, JoiningDay = e.JoiningDate.Day });
+
+        // Get all employee details from the employee table order by First_Name Ascending
+        var employeesOrderedByNameAsc = Employees.OrderBy(e => e.FirstName);
+
+        // Get all employee details from the employee table order by First_Name descending
+        var employeesOrderedByNameDesc = Employees.OrderByDescending(e => e.FirstName);
+
+        // Get all employee details from the employee table order by First_Name Ascending and Salary descending
+        var employeesOrderedByNameAscAndSalaryDesc = Employees.OrderBy(e => e.FirstName).ThenByDescending(e => e.Salary);
+
+        // Get employee details from employee table whose employee name is “John”
+        var johnDetails = Employees.Where(e => e.FirstName == "John");
+
+        // Get employee details from employee table whose employee name are “John” and “Roy”
+        var johnAndRoyDetails = Employees.Where(e => e.FirstName == "John" || e.FirstName == "Roy");
+
+        // Get employee details from employee table whose employee name are not “John” and “Roy”
+        var notJohnAndRoyDetails = Employees.Where(e => e.FirstName != "John" && e.FirstName != "Roy");
+
+        // Get employee details from employee table whose first name starts with 'J'
+        var firstNameStartsWithJ = Employees.Where(e => e.FirstName.StartsWith("J"));
+
+        // Get employee details from employee table whose first name contains 'o'
+        var firstNameContainsO = Employees.Where(e => e.FirstName.Contains("o"));
+
+        // Get employee details from employee table whose first name ends with 'n'
+        var firstNameEndsWithN = Employees.Where(e => e.FirstName.EndsWith("n"));
+
+        // Get employee details from employee table whose first name ends with 'n' and name contains 4 letters
+        var firstNameEndsWithNAndContains4Letters = Employees.Where(e => e.FirstName.EndsWith("n") && e.FirstName.Length == 4);
+
+        // Get employee details from employee table whose first name starts with 'J' and name contains 4 letters
+        var firstNameStartsWithJAndContains4Letters = Employees.Where(e => e.FirstName.StartsWith("J") && e.FirstName.Length == 4);
+
+        // Get employee details from employee table whose Salary greater than 600000
+        var salaryGreaterThan600000 = Employees.Where(e => e.Salary > 600000);
+
+        // Get employee details from employee table whose Salary less than 800000
+        var salaryLessThan800000 = Employees.Where(e => e.Salary < 800000);
+
+        // Get employee details from employee table whose Salary between 500000 and 800000
+        var salaryBetween500000And800000 = Employees.Where(e => e.Salary >= 500000 && e.Salary <= 800000);
+
+        // Get employee details from employee table whose name is 'John' and 'Michael'
+        var johnAndMichaelDetails = Employees.Where(e => e.FirstName == "John" || e.FirstName == "Michael");
+
+        // Get employee details from employee table whose joining year is “2013”
+        var joiningYear2013 = Employees.Where(e => e.JoiningDate.Year == 2013);
+
+        // Get employee details from employee table whose joining month is “January”
+        var joiningMonthJanuary = Employees.Where(e => e.JoiningDate.Month == 1);
+
+        // Get employee details from employee table who joined before January 31st 2013
+        var joinedBeforeJan312013 = Employees.Where(e => e.JoiningDate < new DateTime(2013, 1, 31));
+
+        // Get employee details from employee table who joined after January 31st
+        var joinedAfterJan31 = Employees.Where(e => e.JoiningDate > new DateTime(2013, 1, 31));
+
+        // Get Joining Date and Time from employee table
+        var joiningDateTime = Employees.Select(e => e.JoiningDate);
+
+        // Get Joining Date, Time including milliseconds from employee table
+        var joiningDateTimeWithMilliseconds = Employees.Select(e => e.JoiningDate);
+
+        // Get difference between JOINING_DATE and INCENTIVE_DATE from employee and incentives table
+        var differenceJoiningAndIncentiveDates = Employees.Where(e => e.IncentiveDate.HasValue).Select(e => (e.JoiningDate - e.IncentiveDate.Value).Days);
+
+        // Get database date
+        var databaseDate = DateTime.Now;
+
+        // Get names of employees from employee table who has '%' in Last_Name.
+        var employeesWithPercentageInLastName = Employees.Where(e => e.LastName.Contains("%")).Select(e => e.LastName);
+
+        // Get Last Name from employee table after replacing special character with white space
+        var lastNameWithoutSpecialCharacter = Employees.Select(e => new { LastName = e.LastName.Replace("%", " ") });
+
+        // Get department,total salary with respect to a department from employee table.
+        var departmentTotalSalary = Employees.GroupBy(e => e.Department).Select(g => new { Department = g.Key, TotalSalary = g.Sum(e => e.Salary) });
+
+        // Get department,total salary with respect to a department from employee table order by total salary descending
+        var departmentTotalSalaryDescending = Employees.GroupBy(e => e.Department).Select(g => new { Department = g.Key, TotalSalary = g.Sum(e => e.Salary) }).OrderByDescending(x => x.TotalSalary);
+
+        // Get department,no of employees in a department,total salary with respect to a department from employee table order by total salary descending
+        var departmentEmployeesSalaryDescending = Employees.GroupBy(e => e.Department).Select(g => new { Department = g.Key, NumberOfEmployees = g.Count(), TotalSalary = g.Sum(e => e.Salary) }).OrderByDescending(x => x.TotalSalary);
+
+        // Get department wise average salary from employee table order by salary ascending
+        var departmentWiseAverageSalary = Employees.GroupBy(e => e.Department).Select(g => new { Department = g.Key, AverageSalary = g.Average(e => e.Salary) }).OrderBy(x => x.AverageSalary);
+
+        // Get department wise maximum salary from employee table order by salary ascending
+        var departmentWiseMaximumSalary = Employees.GroupBy(e => e.Department).Select(g => new { Department = g.Key, MaximumSalary = g.Max(e => e.Salary) }).OrderBy(x => x.MaximumSalary);
+
+        // Get department wise minimum salary from employee table order by salary ascending
+        var departmentWiseMinimumSalary = Employees.GroupBy(e => e.Department).Select(g => new { Department = g.Key, MinimumSalary = g.Min(e => e.Salary) }).OrderBy(x => x.MinimumSalary);
+
+        // Select no of employees joined with respect to year and month from employee table
+        var employeesJoinedYearMonth = Employees.GroupBy(e => new { Year = e.JoiningDate.Year, Month = e.JoiningDate.Month }).Select(g => new { Year = g.Key.Year, Month = g.Key.Month, NumberOfEmployees = g.Count() });
+
+        // Select department,total salary with respect to a department from employee table where total salary greater than 800000 order by Total_Salary descending
+        var departmentTotalSalaryGreaterThan800000 = Employees.GroupBy(e => e.Department).Where(g => g.Sum(e => e.Salary) > 800000).Select(g => new { Department = g.Key, TotalSalary = g.Sum(e => e.Salary) }).OrderByDescending(x => x.TotalSalary);
+
+        // Select first_name, incentive amount from employee and incentives table for those employees who have incentives
+        var employeesWithIncentives = Employees.Where(e => e.IncentiveDate.HasValue).Select(e => new { e.FirstName, IncentiveAmount = 5000 }); // Assuming incentive amount is 5000 for all
+
+        // Select first_name, incentive amount from employee and incentives table for those employees who have incentives and incentive amount greater than 3000
+        var employeesWithIncentivesGreaterThan3000 = Employees.Where(e => e.IncentiveDate.HasValue && e.IncentiveDate > new DateTime(2024, 1, 1)).Select(e => new { e.FirstName, IncentiveAmount = 5000 }); // Assuming incentive amount is 5000 for all
+
+        // Select first_name, incentive amount from employee and incentives table for all employed even if they didn't get incentives.
+        var allEmployeesWithIncentives = Employees.Select(e => new { e.FirstName, IncentiveAmount = e.IncentiveDate.HasValue ? 5000 : 0 }); // Assuming incentive amount is 5000 for those who got incentives, otherwise 0
+
+        // Select first_name, incentive amount from employee and incentives table for all employees even if they didn't get incentives and set incentive amount as 0 for those employees who didn't get incentives.
+        var allEmployeesWithIncentivesOrNot = Employees.Select(e => new { e.FirstName, IncentiveAmount = e.IncentiveDate.HasValue ? 5000 : 0 }); // Assuming incentive amount is 5000 for those who got incentives, otherwise 0
+
+        // Select first_name, incentive amount from employee and incentives table for all employees who got incentives using left join
+        var employeesWithIncentivesLeftJoin = from emp in Employees
+                                              join inc in employeesWithIncentives on emp.FirstName equals inc.FirstName into gj
+                                              from subEmp in gj.DefaultIfEmpty()
+                                              select new { FirstName = emp.FirstName, IncentiveAmount = subEmp != null ? subEmp.IncentiveAmount : 0 };
+
+        // Select TOP 2 salary from employee table
+        var top2Salaries = Employees.OrderByDescending(e => e.Salary).Take(2);
+
+        // Select TOP N salary from employee table
+        int N = 5; // Example: Selecting top 5 salaries
+        var topNSalaries = Employees.OrderByDescending(e => e.Salary).Take(N);
+
+        // Select 2nd Highest salary from employee table
+        var secondHighestSalary = Employees.OrderByDescending(e => e.Salary).Skip(1).Take(1).FirstOrDefault();
+
+        // Select Nth Highest salary from employee table
+        int Nth = 3; // Example: Selecting 3rd highest salary
+        var nthHighestSalary = Employees.OrderByDescending(e => e.Salary).Skip(Nth - 1).Take(1).FirstOrDefault();
+
+        // Select First_Name, LAST_NAME from employee table as separate rows
+        var firstLastNameSeparateRows = Employees.SelectMany(e => new[] { e.FirstName, e.LastName });
+
+        Console.WriteLine("Queries executed successfully!");
+    }
+}
